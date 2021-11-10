@@ -1,7 +1,7 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {Button} from "./Button";
-import {FilterValuesType} from "../App";
 import {NewInput} from "./NewInput";
+import {FilterValuesType} from "./App";
 
 export type TaskType = {
     id: string
@@ -19,40 +19,22 @@ type PropsType = {
     changeTaskStatus: (todolistID: string, taskId: string, isDone: boolean) => void
     filter: FilterValuesType
 }
-
 export function TodoList(props: PropsType) {
-
-
-    // const allFilterHandler = () => { props.changeFilter( props.todolistID,'All')}
-    // const activeFilterHandler = () => { props.changeFilter( props.todolistID,'Active')}
-    // const completedFilterHandler = () => { props.changeFilter( props.todolistID,'Completed')}
-
     const tsarFooHandler = (filterValue:FilterValuesType)=>{
         props.changeFilter(props.todolistID,filterValue,)
     }
-
     let [title, setTitle] = useState("")
     const addTaskHandler=()=>{
         if(title.trim()!== ''){
             props.addTask(props.todolistID,title)
             setTitle("")
         }
-
     }
-
     return <div>
         <h3>{props.title}</h3>
         <div className={'both'}>
-
             <NewInput title={title} setTitle={setTitle} addTask={props.addTask} todolistID={props.todolistID} />
             <Button name={'+'}  callback={addTaskHandler} />
-
-            {/*<input value={title}*/}
-            {/*       onChange={onChangeHandler}*/}
-            {/*       onKeyPress={onKeyPressHandler}*/}
-            {/*       className={error ? "error" : ""}*/}
-            {/*/>*/}
-            {/*<button onClick={addTask}>+</button>*/}
         </div>
         <ul>
             {

@@ -41,4 +41,17 @@ export const DeleteTask = () => {
     }, [])
     return <div> {JSON.stringify(state)}</div>
 }
+export const UpdateTaskTitle = () => {
+    let todolistId = "21c101b8-2448-401d-984d-b7bd4f612cee"
+    const taskId ="82d1a3e7-c57d-40b6-b622-8f0c7a873df0"
+    let title = 'HTML'
+    const [state, setState] = useState<any>(null)
+    useEffect(() => {
+        taskApi.updateTaskTitle(todolistId,taskId, title).then((res) => {
+            setState(res.data)
+        })
+    }, [])
+
+    return <div> {JSON.stringify(state)}</div>
+}
 

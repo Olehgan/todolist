@@ -36,3 +36,16 @@ export const DeleteTodolist = () => {
     }, [])
     return <div> {JSON.stringify(state)}</div>
 }
+export const UpdateTodolistTitle = () => {
+    let todolistId = "13698375-7e70-4431-8713-18ec4502f4fd"
+    let title = 'Angular'
+    const [state, setState] = useState<any>(null)
+    useEffect(() => {
+        todolistApi.updateTodoTitle(todolistId,title).then((res)=>{
+            setState(res.data)
+        })
+    }, [])
+
+    return <div> {JSON.stringify(state)}</div>
+}
+

@@ -2,8 +2,6 @@ import TextField from '@material-ui/core/TextField';
 import React, { ChangeEvent, useState } from 'react';
 
 
-
-
 type EditableSpanPropsType = {
     value: string
     onChange: (newValue: string) => void

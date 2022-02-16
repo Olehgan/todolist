@@ -14,18 +14,24 @@ import {addTaskTC, removeTaskTC, TasksStateType, updateTaskTC} from './tasks-red
 import {TaskStatuses} from '../../api/todolists-api'
 import {AddItemForm} from '../../components/AddItemForm/AddItemForm'
 import {Todolist} from './Todolist/Todolist'
-import Grid from '@material-ui/core/Grid'
-import {Paper} from "@material-ui/core";
+import {Navigate} from 'react-router-dom'
+import {Grid, Paper} from "@material-ui/core";
 
+type PropsType = {
+    demo?: boolean
+}
 
-export const TodolistsList: React.FC = () => {
-
+export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-
     const dispatch = useDispatch()
+    let isLoggedIn = useSelector<AppRootStateType,boolean>(state=> state.auth.isLoggedIn)
 
     useEffect(() => {
+        debugger
+        if (demo||!isLoggedIn) {
+            return;
+        }
         const thunk = fetchTodolistsTC()
         dispatch(thunk)
     }, [])
@@ -70,7 +76,9 @@ export const TodolistsList: React.FC = () => {
         dispatch(thunk)
     }, [dispatch])
 
-
+    if(!isLoggedIn) {
+        return <Navigate to={'/login'}/>
+    }
     return <>
         <Grid container style={{padding: '20px'}}>
             <AddItemForm addItem={addTodolist}/>
@@ -83,10 +91,7 @@ export const TodolistsList: React.FC = () => {
                     return <Grid item key={tl.id}>
                         <Paper style={{padding: '10px'}}>
                             <Todolist
-                                id={tl.id}
-                                title={tl.title}
-                                filter={tl.filter}
-                                entityStatus={tl.entityStatus}
+                                todolist={tl}
                                 tasks={allTodolistTasks}
                                 removeTask={removeTask}
                                 changeFilter={changeFilter}
@@ -95,6 +100,7 @@ export const TodolistsList: React.FC = () => {
                                 removeTodolist={removeTodolist}
                                 changeTaskTitle={changeTaskTitle}
                                 changeTodolistTitle={changeTodolistTitle}
+                                demo={demo}
                             />
                         </Paper>
                     </Grid>
